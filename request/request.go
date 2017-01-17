@@ -55,6 +55,11 @@ func Call(opt Option) (*Response, error) {
 		req.Use(p)
 	}
 
+	// Set User-Agent
+	if opt.hasUserAgent() {
+		req.Use(headers.Set("User-Agent", opt.UserAgent))
+	}
+
 	// Set basic auth
 	if opt.hasBasicAuth() {
 		req.Use(auth.Basic(opt.User, opt.Pass))
@@ -85,6 +90,9 @@ func Call(opt Option) (*Response, error) {
 			req.Use(body.JSON(payload))
 		case opt.PayloadType.isXML():
 			req.Use(body.XML(payload))
+		case opt.PayloadType.isForm():
+			req.Use(headers.Set("Content-Type", "application/x-www-form-urlencoded"))
+			req.Use(body.String(parseParam(payload)))
 		default:
 			req.Use(body.String(fmt.Sprint(payload)))
 		}

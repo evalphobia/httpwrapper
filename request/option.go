@@ -10,13 +10,14 @@ import (
 
 // Option is wrapper struct of http option
 type Option struct {
-	URL     string
-	Method  Method
-	Headers map[string]string
-	Timeout time.Duration
-	Retry   bool
-	Debug   bool
-	Plugins []plugin.Plugin
+	URL       string
+	Method    Method
+	Headers   map[string]string
+	Timeout   time.Duration
+	Retry     bool
+	Debug     bool
+	Plugins   []plugin.Plugin
+	UserAgent string
 
 	// Basic Auth
 	User string
@@ -37,6 +38,10 @@ func (o Option) hasHeaders() bool {
 
 func (o Option) hasTimeout() bool {
 	return o.Timeout > 0
+}
+
+func (o Option) hasUserAgent() bool {
+	return o.UserAgent != ""
 }
 
 func (o Option) hasBasicAuth() bool {
@@ -118,6 +123,7 @@ var (
 	PayloadTypeBODY PayloadType = "BODY"
 	PayloadTypeJSON PayloadType = "JSON"
 	PayloadTypeXML  PayloadType = "XML"
+	PayloadTypeFORM PayloadType = "FORM"
 )
 
 func (p PayloadType) isBody() bool {
@@ -130,4 +136,8 @@ func (p PayloadType) isJSON() bool {
 
 func (p PayloadType) isXML() bool {
 	return p == PayloadTypeXML
+}
+
+func (p PayloadType) isForm() bool {
+	return p == PayloadTypeFORM
 }
