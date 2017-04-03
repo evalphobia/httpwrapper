@@ -1,7 +1,8 @@
 httpwrapper
 ----
 
-[![GoDoc][1]][2] [![License: MIT][3]][4] [![Release][5]][6] [![Build Status][7]][8] [![Codecov Coverage][11]][12] [![Go Report Card][13]][14] [![Downloads][15]][16]
+[GoDoc][1] [![License: MIT][3]][4] [![Release][5]][6] [![Build Status][7]][8] [![Codecov Coverage][11]][12] [![Go Report Card][13]][14] [![Downloads][15]][16]
+
 [1]: https://godoc.org/github.com/evalphobia/httpwrapper?status.svg
 [2]: https://godoc.org/github.com/evalphobia/httpwrapper
 [3]: https://img.shields.io/badge/License-MIT-blue.svg
