@@ -119,6 +119,9 @@ func CallWithResult(opt Option, result interface{}) error {
 	if err != nil {
 		return err
 	}
+	if err := resp.HasStatusCodeError(); err != nil {
+		return err
+	}
 
 	switch {
 	case opt.PayloadType.isXML():
