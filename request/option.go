@@ -124,6 +124,7 @@ var (
 	PayloadTypeJSON PayloadType = "JSON"
 	PayloadTypeXML  PayloadType = "XML"
 	PayloadTypeFORM PayloadType = "FORM"
+	PayloadTypeDATA PayloadType = "DATA"
 )
 
 func (p PayloadType) isBody() bool {
@@ -140,4 +141,8 @@ func (p PayloadType) isXML() bool {
 
 func (p PayloadType) isForm() bool {
 	return p == PayloadTypeFORM
+}
+
+func (p PayloadType) isData() bool {
+	return p == PayloadTypeDATA
 }

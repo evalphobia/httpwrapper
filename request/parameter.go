@@ -3,6 +3,8 @@ package request
 import (
 	"fmt"
 	"net/url"
+
+	"gopkg.in/h2non/gentleman.v1/plugins/multipart"
 )
 
 const tagName = "url"
@@ -30,6 +32,17 @@ func convertToURLValue(tagName string, param interface{}) url.Values {
 	convertTo(tagName, param, &result, func(result interface{}, key string, value interface{}) {
 		r := result.(*url.Values)
 		r.Add(key, fmt.Sprint(value))
+	})
+	return result
+}
+
+// convertToMultipartData convert multipart.DataFields data from struct data.
+func convertToMultipartData(tagName string, param interface{}) multipart.DataFields {
+	result := make(map[string]multipart.Values)
+	convertTo(tagName, param, &result, func(result interface{}, key string, value interface{}) {
+		r := result.(*map[string]multipart.Values)
+		rr := *r
+		rr[key] = multipart.Values([]string{fmt.Sprint(value)})
 	})
 	return result
 }

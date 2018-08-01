@@ -1,7 +1,7 @@
 httpwrapper
 ----
 
-[![GoDoc][1]][2] [![License: MIT][3]][4] [![Release][5]][6] [![Build Status][7]][8] [![Codecov Coverage][11]][12] [![Go Report Card][13]][14] [![Downloads][15]][16]
+[![GoDoc][1]][2] [![License: MIT][3]][4] [![Release][5]][6] [![Build Status][7]][8] [![Codecov Coverage][11]][12] [![Go Report Card][13]][14] [![Code Climate][19]][20] [![BCH compliance][21]][22]
 
 [1]: https://godoc.org/github.com/evalphobia/httpwrapper?status.svg
 [2]: https://godoc.org/github.com/evalphobia/httpwrapper
@@ -21,6 +21,10 @@ httpwrapper
 [16]: https://github.com/evalphobia/httpwrapper/releases
 [17]: https://img.shields.io/github/stars/evalphobia/httpwrapper.svg
 [18]: https://github.com/evalphobia/httpwrapper/stargazers
+[19]: https://codeclimate.com/github/evalphobia/httpwrapper/badges/gpa.svg
+[20]: https://codeclimate.com/github/evalphobia/httpwrapper
+[21]: https://bettercodehub.com/edge/badge/evalphobia/httpwrapper?branch=master
+[22]: https://bettercodehub.com/
 
 HTTP client wrapper using [h2non/gentleman](https://github.com/h2non/gentleman)
 
@@ -112,5 +116,5 @@ type User struct {
 | User | Basic auth username | |
 | Pass | Basic auth password | |
 | Query | HTTP Query String in `string`, `map[string]string` or `map[string]interface{}` | `name=aaa&pass=bbb&param=ccc` |
-| PayloadType | Define type of `Payload` | `JSON`, `XML`, `BODY`, `FORM`. request package has variables (`request.PayloadTypeJSON` and others) |
+| PayloadType | Define type of `Payload` | `JSON`, `XML`, `BODY`, `FORM`, `DATA`. request package has variables (`request.PayloadTypeJSON` and others) |
 | Payload | Request body parameters | |

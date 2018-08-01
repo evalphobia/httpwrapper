@@ -8,6 +8,7 @@ import (
 	"gopkg.in/h2non/gentleman.v1/plugins/auth"
 	"gopkg.in/h2non/gentleman.v1/plugins/body"
 	"gopkg.in/h2non/gentleman.v1/plugins/headers"
+	"gopkg.in/h2non/gentleman.v1/plugins/multipart"
 	"gopkg.in/h2non/gentleman.v1/plugins/query"
 	"gopkg.in/h2non/gentleman.v1/plugins/timeout"
 )
@@ -93,6 +94,8 @@ func Call(opt Option) (*Response, error) {
 		case opt.PayloadType.isForm():
 			req.Use(headers.Set("Content-Type", "application/x-www-form-urlencoded"))
 			req.Use(body.String(parseParam(payload)))
+		case opt.PayloadType.isData():
+			req.Use(multipart.Fields(convertToMultipartData(tagName, payload)))
 		default:
 			req.Use(body.String(fmt.Sprint(payload)))
 		}
