@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/url"
 
-	"gopkg.in/h2non/gentleman.v1/plugins/multipart"
+	"gopkg.in/h2non/gentleman.v2/plugins/multipart"
 )
 
 const tagName = "url"

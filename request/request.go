@@ -2,15 +2,17 @@ package request
 
 import (
 	"fmt"
+	"io"
 
-	"gopkg.in/h2non/gentleman-retry.v1"
-	"gopkg.in/h2non/gentleman.v1"
-	"gopkg.in/h2non/gentleman.v1/plugins/auth"
-	"gopkg.in/h2non/gentleman.v1/plugins/body"
-	"gopkg.in/h2non/gentleman.v1/plugins/headers"
-	"gopkg.in/h2non/gentleman.v1/plugins/multipart"
-	"gopkg.in/h2non/gentleman.v1/plugins/query"
-	"gopkg.in/h2non/gentleman.v1/plugins/timeout"
+	retry "gopkg.in/h2non/gentleman-retry.v2"
+	"gopkg.in/h2non/gentleman.v2"
+	"gopkg.in/h2non/gentleman.v2/plugins/auth"
+	"gopkg.in/h2non/gentleman.v2/plugins/body"
+	"gopkg.in/h2non/gentleman.v2/plugins/bodytype"
+	"gopkg.in/h2non/gentleman.v2/plugins/headers"
+	"gopkg.in/h2non/gentleman.v2/plugins/multipart"
+	"gopkg.in/h2non/gentleman.v2/plugins/query"
+	"gopkg.in/h2non/gentleman.v2/plugins/timeout"
 )
 
 // GET sends GET request with option.
@@ -69,6 +71,10 @@ func Call(opt Option) (*Response, error) {
 	if opt.hasHeaders() {
 		req.Use(headers.SetMap(opt.Headers))
 	}
+	// Set Auth Bearer header
+	if opt.hasAuthBearer() {
+		req.Use(auth.Bearer(opt.Bearer))
+	}
 	// Set timeout
 	if opt.hasTimeout() {
 		req.Use(timeout.Request(opt.Timeout))
@@ -96,9 +102,18 @@ func Call(opt Option) (*Response, error) {
 			req.Use(body.String(parseParam(payload)))
 		case opt.PayloadType.isData():
 			req.Use(multipart.Fields(convertToMultipartData(tagName, payload)))
+		case opt.PayloadType.isStream():
+			if v, ok := payload.(io.Reader); ok {
+				req.Use(body.Reader(v))
+			}
 		default:
 			req.Use(body.String(fmt.Sprint(payload)))
 		}
+	}
+
+	// Set Custom content-type
+	if opt.hasContentType() {
+		req.Use(bodytype.Set(opt.ContentType))
 	}
 
 	// show debug request
