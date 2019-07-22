@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"gopkg.in/h2non/gentleman.v1/plugin"
+	"gopkg.in/h2non/gentleman.v2/plugin"
 )
 
 // Option is wrapper struct of http option
@@ -23,6 +23,9 @@ type Option struct {
 	User string
 	Pass string
 
+	// Authorization Bearer:
+	Bearer string
+
 	// Query Parameter
 	Query interface{}
 
@@ -30,6 +33,9 @@ type Option struct {
 	Payload interface{}
 	// PayloadType is used for body payload type
 	PayloadType PayloadType
+
+	// Custom content-type
+	ContentType string
 }
 
 func (o Option) hasHeaders() bool {
@@ -48,12 +54,20 @@ func (o Option) hasBasicAuth() bool {
 	return o.User != ""
 }
 
+func (o Option) hasAuthBearer() bool {
+	return o.Bearer != ""
+}
+
 func (o Option) hasPayload() bool {
 	return o.Payload != nil
 }
 
 func (o Option) hasQuery() bool {
 	return o.Query != nil
+}
+
+func (o Option) hasContentType() bool {
+	return o.ContentType != ""
 }
 
 func (o Option) queryToMap() map[string]string {
@@ -99,37 +113,38 @@ func (m Method) isEmpty() bool {
 	return string(m) == ""
 }
 
-func (m Method) isGET() bool {
-	return string(m) == "GET"
-}
+// func (m Method) isGET() bool {
+// 	return string(m) == "GET"
+// }
 
-func (m Method) isPOST() bool {
-	return string(m) == "POST"
-}
+// func (m Method) isPOST() bool {
+// 	return string(m) == "POST"
+// }
 
-func (m Method) isPUT() bool {
-	return string(m) == "PUT"
-}
+// func (m Method) isPUT() bool {
+// 	return string(m) == "PUT"
+// }
 
-func (m Method) isDELETE() bool {
-	return string(m) == "DELETE"
-}
+// func (m Method) isDELETE() bool {
+// 	return string(m) == "DELETE"
+// }
 
 // PayloadType is payload type for POST
 type PayloadType string
 
 // POST Payload type variables
 var (
-	PayloadTypeBODY PayloadType = "BODY"
-	PayloadTypeJSON PayloadType = "JSON"
-	PayloadTypeXML  PayloadType = "XML"
-	PayloadTypeFORM PayloadType = "FORM"
-	PayloadTypeDATA PayloadType = "DATA"
+	PayloadTypeBODY   PayloadType = "BODY"
+	PayloadTypeJSON   PayloadType = "JSON"
+	PayloadTypeXML    PayloadType = "XML"
+	PayloadTypeFORM   PayloadType = "FORM"
+	PayloadTypeDATA   PayloadType = "DATA"
+	PayloadTypeSTREAM PayloadType = "STREAM"
 )
 
-func (p PayloadType) isBody() bool {
-	return p == PayloadTypeBODY || string(p) == ""
-}
+// func (p PayloadType) isBody() bool {
+// 	return p == PayloadTypeBODY || string(p) == ""
+// }
 
 func (p PayloadType) isJSON() bool {
 	return p == PayloadTypeJSON
@@ -145,4 +160,8 @@ func (p PayloadType) isForm() bool {
 
 func (p PayloadType) isData() bool {
 	return p == PayloadTypeDATA
+}
+
+func (p PayloadType) isStream() bool {
+	return p == PayloadTypeSTREAM
 }

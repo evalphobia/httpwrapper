@@ -201,7 +201,6 @@ func createTestHandler() (*httptest.Server, map[string]string) {
 			w.WriteHeader(200)
 			fmt.Fprintln(w, `{"error": false}`)
 		}
-		return
 	}))
 	return ts, record
 }

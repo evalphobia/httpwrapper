@@ -7,9 +7,9 @@ import (
 	"net"
 	"net/http/httputil"
 
-	"gopkg.in/h2non/gentleman.v1"
-	"gopkg.in/h2non/gentleman.v1/context"
-	"gopkg.in/h2non/gentleman.v1/plugin"
+	"gopkg.in/h2non/gentleman.v2"
+	"gopkg.in/h2non/gentleman.v2/context"
+	"gopkg.in/h2non/gentleman.v2/plugin"
 )
 
 // debug is flag for debugging HTTP request/response
