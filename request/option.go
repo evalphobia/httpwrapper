@@ -113,21 +113,21 @@ func (m Method) isEmpty() bool {
 	return string(m) == ""
 }
 
-func (m Method) isGET() bool {
-	return string(m) == "GET"
-}
+// func (m Method) isGET() bool {
+// 	return string(m) == "GET"
+// }
 
-func (m Method) isPOST() bool {
-	return string(m) == "POST"
-}
+// func (m Method) isPOST() bool {
+// 	return string(m) == "POST"
+// }
 
-func (m Method) isPUT() bool {
-	return string(m) == "PUT"
-}
+// func (m Method) isPUT() bool {
+// 	return string(m) == "PUT"
+// }
 
-func (m Method) isDELETE() bool {
-	return string(m) == "DELETE"
-}
+// func (m Method) isDELETE() bool {
+// 	return string(m) == "DELETE"
+// }
 
 // PayloadType is payload type for POST
 type PayloadType string
@@ -142,9 +142,9 @@ var (
 	PayloadTypeSTREAM PayloadType = "STREAM"
 )
 
-func (p PayloadType) isBody() bool {
-	return p == PayloadTypeBODY || string(p) == ""
-}
+// func (p PayloadType) isBody() bool {
+// 	return p == PayloadTypeBODY || string(p) == ""
+// }
 
 func (p PayloadType) isJSON() bool {
 	return p == PayloadTypeJSON

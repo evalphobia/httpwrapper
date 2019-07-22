@@ -1,21 +1,23 @@
+sudo: false
 language: go
 go:
-  - 1.6
-  - 1.7
+  - 1.11
+  - "1.12.x"
   - tip
 matrix:
   allow_failures:
     - go: tip
 before_install:
+  - go get github.com/axw/gocov/gocov
+  - go get github.com/mattn/goveralls
   - go get golang.org/x/tools/cmd/cover
-  - go get github.com/golang/lint/golint
-  - go get github.com/modocache/gover
-  - go get -d github.com/stretchr/testify/assert
-before_script:
-  - go vet ./...
-  - gofmt -s -l .
+  - go get -t -v ./...
+  - make lint
 script:
-  - go list -f '{{if len .TestGoFiles}}"go test -coverprofile={{.Dir}}/.coverprofile {{.ImportPath}}"{{end}}' ./... | xargs -I{} sh -c '{}'
-  - gover . coverprofile.txt
+  - make test
 after_success:
-  - bash <(curl -s https://codecov.io/bash) -f coverprofile.txt
+  - |
+    if [[ $TRAVIS_GO_VERSION = 1.12.x ]]
+    then
+      make coverage
+    fi
