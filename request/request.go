@@ -133,22 +133,21 @@ func Call(opt Option) (*Response, error) {
 
 // CallWithResult sends request and set result.
 func CallWithResult(opt Option, result interface{}) error {
-	resp, err := Call(opt)
-	if err != nil {
-		return err
+	resp, respErr := Call(opt)
+
+	var unmarshalErr error
+	switch {
+	case opt.PayloadType.isXML():
+		unmarshalErr = resp.XML(result, nil)
+	default:
+		unmarshalErr = resp.JSON(result)
+	}
+
+	if respErr != nil {
+		return respErr
 	}
 	if err := resp.HasStatusCodeError(); err != nil {
 		return err
 	}
-
-	switch {
-	case opt.PayloadType.isXML():
-		err = resp.XML(result, nil)
-	default:
-		err = resp.JSON(result)
-	}
-	if err != nil {
-		return err
-	}
-	return nil
+	return unmarshalErr
 }
