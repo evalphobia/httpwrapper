@@ -137,6 +137,8 @@ func CallWithResult(opt Option, result interface{}) error {
 
 	var unmarshalErr error
 	switch {
+	case resp == nil:
+		// do nothing
 	case opt.PayloadType.isXML():
 		unmarshalErr = resp.XML(result, nil)
 	default:
